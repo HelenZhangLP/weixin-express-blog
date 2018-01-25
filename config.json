@@ -1,0 +1,10 @@
+{
+    "token":"gulu",
+    "appID":"wxca9401b776f26244",
+    "appScrect":"72e9644bbad63fd75dad86b675b1ecea",
+    "apiDomain":"https://api.weixin.qq.com/",
+    "apiURL":{
+        "accessTokenApi":"%scgi-bin/token?grant_type=client_credential&appid=%s&secret=%s",
+        "createMenu":"%scgi-bin/menu/create?access_token=%s"
+    }
+}
