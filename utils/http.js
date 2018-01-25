@@ -1,11 +1,10 @@
 
-const http = require('http'),
+const https = require('https'),
 			urltil = require('url');
 
 module.exports = {
 	requestGet: function(url){
-		return Promise(
-			function(resolve, reject) {
+		return new Promise(function(resolve, reject) {
 				https.get(url,function(res){
           var buffer = [],result = "";
           //监听 data 事件
@@ -41,15 +40,18 @@ module.exports = {
               'Content-Length': Buffer.byteLength(data,'utf-8')
           }
       };
-      var req = http.request(options,function(res){
+      var req = https.request(options,function(res){
           var buffer = [],result = '';
           //用于监听 data 事件 接收数据
           res.on('data',function(data){
               buffer.push(data);
           });
+          console.log(buffer);
+          debugger;
            //用于监听 end 事件 完成数据的接收
           res.on('end',function(){
               result = Buffer.concat(buffer).toString('utf-8');
+              console.log(result);debugger;
               resolve(result);
           })
       })
@@ -60,6 +62,8 @@ module.exports = {
       });
       //传入数据
       req.write(data);
+      console.log(data);
+      debugger;
       req.end();
     });
   }

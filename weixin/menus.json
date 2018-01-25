@@ -2,16 +2,16 @@
      "button":[
         {	
           "type":"view",
-          "name":"hvkcoder",
+          "name":"My Blog",
            "url":""
         },
         {	
           "type":"click",
-          "name":"今日推荐",
+          "name":"Myself",
           "key":"today_recommend"
         },
         {	
-          "name":"小工具",
+          "name":"More",
           "sub_button":[{
                "type": "scancode_waitmsg", 
                "name": "扫一扫",

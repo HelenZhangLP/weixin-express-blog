@@ -1,7 +1,12 @@
 
 var crypto = require('crypto'),
-		express = require('express');
+		express = require('express'),
+		util = require('util'),
+		{requestPost, requestGet} = require('../utils/http'),
+		fs = require('fs'),
+		accessTokenJson = require('./access_token');
 
+console.log(accessTokenJson,'====');
 var config = require('../config');
 
 module.exports = {
@@ -30,5 +35,36 @@ module.exports = {
    	//3.
 		var result = (resultCode === signature) ? echostr : 'failed';
 		return res.send(result);
+	},
+	getAccessToken: function() {
+		const _this = this;
+		// 返回一个 promise 用于判断处理拿到 token 后的请求
+		return new Promise(function(resolve, reject) {
+			const currentTime = (new Date()).getTime(),
+						url = util.format(config.apiURL.accessTokenApi,config.apiDomain,config.appID,config.appScrect);
+
+			//判断本地存储的 accessToken 是否有效（access_token 未存到本地；或 access_token 失效）
+			if(accessTokenJson.access_token === '' || accessTokenJson.expires_time < currentTime) {
+				//本地存储 access_token 无效
+				requestGet(url).then(function(data){
+					const result = JSON.parse(data);
+					
+					if(JSON.stringify(result).indexOf('errcode') !== -1){
+						resolve(result);
+					} else {
+						accessTokenJson.access_token = result.access_token;
+						accessTokenJson.expires_time = result.expires_time;
+						
+						fs.writeFile('access_token.json',JSON.stringify(accessTokenJson));
+						resolve(accessTokenJson.access_token);
+					}
+				})
+
+			} else {
+				//本地址存在的 access_token 有效
+				resolve(accessTokenJson.access_token);
+			}
+		})
 	}
+
 }
