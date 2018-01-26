@@ -62,8 +62,6 @@ module.exports = {
       });
       //传入数据
       req.write(data);
-      console.log(data);
-      debugger;
       req.end();
     });
   }
