@@ -2,8 +2,8 @@
      "button":[
      {    
           "type":"click",
-          "name":"今日歌曲",
-          "key":"V1001_TODAY_MUSIC"
+          "name":"最新消息",
+          "key":"NEWS_V001"
       },
       {
            "name":"菜单",
